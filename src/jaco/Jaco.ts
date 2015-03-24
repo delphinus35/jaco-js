@@ -31,6 +31,7 @@ module jaco {
 				return new Jaco(str);
 			}
 			this._str = str.toString();
+			this._update();
 		}
 
 		/**
@@ -40,6 +41,22 @@ module jaco {
 		* @since 0.1.0
 		*/
 		private _str: string;
+
+		/**
+		* 保持する文字列の配列
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		*/
+		private _array: string[];
+
+		/**
+		* サロゲートを含むかどうか
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		*/
+		private _includedSurrogate: boolean;
 
 		/**
 		* 明示もしくは暗黙の文字列変換メソッド
@@ -66,19 +83,20 @@ module jaco {
 		/**
 		* 文字列連結をおこなう
 		*
-		* @version 0.2.0
+		* @version 1.3.0
 		* @since 0.2.0
 		* @return インスタンス自身
 		*/
 		public concat (...likeStrings: any[]): Jaco {
 			this._str += likeStrings.join('');
+			this._update();
 			return this;
 		}
 
 		/**
 		* 文字列をパターンで置換する
 		*
-		* @version 0.2.0
+		* @version 1.3.0
 		* @since 0.2.0
 		* @param pattern  対象のパターン
 		* @param replacement 置換する文字列
@@ -87,6 +105,7 @@ module jaco {
 		public replace (pattern: string | RegExp, replacement: string): Jaco {
 			// TODO: replaceメソッドの型が (string | RexExp) だとコンパイルエラー TSv1.4.1時点
 			this._str = this._str.replace(<RegExp> pattern, replacement);
+			this._update();
 			return this;
 		}
 
@@ -94,42 +113,59 @@ module jaco {
 		* 文字位置による抽出
 		* (非破壊的メソッド)
 		*
-		* @version 0.2.0
+		* @version 1.3.0
 		* @since 0.2.0
 		* @param from 開始インデックス
 		* @param to 終了インデックス 省略すると最後まで
 		* @return 抽出した文字列からなるJacoインスタンス
 		*/
 		public slice (from: number, to?: number): Jaco {
-			return new Jaco(this._str.slice(from, to));
+			if (this._includedSurrogate) {
+				return new Jaco(this._array.slice(from, to).join(''));
+			} else {
+				return new Jaco(this._str.slice(from, to));
+			}
 		}
 
 		/**
 		* 指定した位置から指定した数だけ文字列を抽出
 		* (非破壊的メソッド)
 		*
-		* @version 0.2.0
+		* @version 1.3.0
 		* @since 0.2.0
 		* @param start 開始インデックス
 		* @param length 指定数
 		* @return 抽出した文字列からなるJacoインスタンス
 		*/
 		public substr (start: number, length?: number): Jaco {
-			return new Jaco(this._str.slice(start, length));
+			if (this._includedSurrogate) {
+				if (length === undefined) {
+					length = this.size();
+				}
+				return new Jaco(this._array.slice(start, start + length).join(''));
+			} else {
+				return new Jaco(this._str.substr(start, length));
+			}
 		}
 
 		/**
 		* 指定した位置の間の文字列を抽出
 		* (非破壊的メソッド)
 		*
-		* @version 0.2.0
+		* @version 1.3.0
 		* @since 0.2.0
 		* @param indexA インデックス
 		* @param indexB インデックス
 		* @return 抽出した文字列からなるJacoインスタンス
 		*/
 		public substring (indexA: number, indexB: number): Jaco {
-			return new Jaco(this._str.substring(indexA, indexB));
+			var start: number = Math.min(indexA, indexB);
+			var end: number = Math.max(indexA, indexB);
+			if (this._includedSurrogate) {
+				return new Jaco(this._array.slice(start, end).join(''));
+			} else {
+				return new Jaco(this._str.substring(start, end));
+			}
 		}
 
 		/**
@@ -184,12 +220,16 @@ module jaco {
 		/**
 		* 文字列の長さを返す
 		*
-		* @version 0.2.0
+		* @version 1.3.0
 		* @since 0.2.0
 		* @return 文字列数
 		*/
 		public size (): number {
-			return this._str.length;
+			if (this._includedSurrogate) {
+				return this._array.length;
+			} else {
+				return this._str.length;
+			}
 		}
 
 		/**
@@ -294,6 +334,40 @@ module jaco {
 		*/
 		public has (target: string | Jaco): boolean {
 			return this._str.indexOf(target.toString()) !== -1;
+		}
+
+		/**
+		* サロゲートペアを含むかどうか
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		* @return 結果の真偽
+		*/
+		public hasSurrogatePair (): boolean {
+			return new RegExp('[' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']').test(this._str);
+		}
+
+		/**
+		* ペアになっていないサロゲートがあるかどうか
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		* @return 結果の真偽
+		*/
+		public hasUnpairedSurrogate (): boolean {
+			return new RegExp('[^' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']|[' + HIGH_SURROGATE + '][^' + LOW_SURROGATE + ']').test(this._str);
+		}
+
+		/**
+		* ペアになっていないサロゲートを削除する
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		* @return インスタンス自身
+		*/
+		public removeUnpairedSurrogate (): Jaco {
+			this.remove(new RegExp('[^' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']|[' + HIGH_SURROGATE + '][^' + LOW_SURROGATE + ']', 'g'));
+			return this;
 		}
 
 		/**
@@ -940,6 +1014,28 @@ module jaco {
 			return this;
 		}
 
+		/**
+		* 内部情報を更新
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		* @return インスタンス自身
+		*/
+		private _update (): Jaco {
+			this._includedSurrogate = includedSurrogate(this._str);
+			if (this._includedSurrogate) {
+				this._array = this._str.match(
+					new RegExp(
+						'[' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']|[^' + HIGH_SURROGATE + LOW_SURROGATE + ']',
+						'g'
+					)
+				) || [];
+			} else {
+				this._array = null;
+			}
+			return this;
+		}
+
 	}
 
 	/**
@@ -965,6 +1061,18 @@ module jaco {
 	*/
 	function toRegExp (str: string, option: string = 'igm'): RegExp {
 		return new RegExp(str, option);
+	}
+
+	/**
+	* サロゲートペアを含むかどうか
+	*
+	* @version 1.3.0
+	* @since 1.3.0
+	* @param chars 文字の集合
+	* @return サロゲートペアを含むかどうか
+	*/
+	function includedSurrogate (chars: string): boolean {
+		return new RegExp('[' + HIGH_SURROGATE + LOW_SURROGATE + ']').test(chars);
 	}
 
 }

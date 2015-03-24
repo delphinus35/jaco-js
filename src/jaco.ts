@@ -153,6 +153,18 @@ module jaco {
 	export var SPACE_CHARS: string = '\\s\\n\\t\\u0009\\u0020\\u00A0\\u2002-\\u200B\\u3000\\uFEFF';
 
 	/**
+	* 上位サロゲート
+	*
+	*/
+	export var HIGH_SURROGATE: string = '\\uD800-\\uDBFF';
+
+	/**
+	* 下位サロゲート
+	*
+	*/
+	export var LOW_SURROGATE: string = '\\uDC00-\\uDFFF';
+
+	/**
 	* ひらがな化
 	*
 	* @version 0.1.0

@@ -1,4 +1,3 @@
-/// <reference path="../typings/bundle.d.ts" />
 /**
 * jacoモジュール
 *
@@ -137,6 +136,16 @@ declare module jaco {
     */
     var SPACE_CHARS: string;
     /**
+    * 上位サロゲート
+    *
+    */
+    var HIGH_SURROGATE: string;
+    /**
+    * 下位サロゲート
+    *
+    */
+    var LOW_SURROGATE: string;
+    /**
     * ひらがな化
     *
     * @version 0.1.0
@@ -232,6 +241,20 @@ declare module jaco {
         */
         private _str;
         /**
+        * 保持する文字列の配列
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        */
+        private _array;
+        /**
+        * サロゲートを含むかどうか
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        */
+        private _includedSurrogate;
+        /**
         * 明示もしくは暗黙の文字列変換メソッド
         *
         * @version 0.1.0
@@ -250,7 +273,7 @@ declare module jaco {
         /**
         * 文字列連結をおこなう
         *
-        * @version 0.2.0
+        * @version 1.3.0
         * @since 0.2.0
         * @return インスタンス自身
         */
@@ -258,7 +281,7 @@ declare module jaco {
         /**
         * 文字列をパターンで置換する
         *
-        * @version 0.2.0
+        * @version 1.3.0
         * @since 0.2.0
         * @param pattern  対象のパターン
         * @param replacement 置換する文字列
@@ -269,7 +292,7 @@ declare module jaco {
         * 文字位置による抽出
         * (非破壊的メソッド)
         *
-        * @version 0.2.0
+        * @version 1.3.0
         * @since 0.2.0
         * @param from 開始インデックス
         * @param to 終了インデックス 省略すると最後まで
@@ -280,7 +303,7 @@ declare module jaco {
         * 指定した位置から指定した数だけ文字列を抽出
         * (非破壊的メソッド)
         *
-        * @version 0.2.0
+        * @version 1.3.0
         * @since 0.2.0
         * @param start 開始インデックス
         * @param length 指定数
@@ -291,7 +314,7 @@ declare module jaco {
         * 指定した位置の間の文字列を抽出
         * (非破壊的メソッド)
         *
-        * @version 0.2.0
+        * @version 1.3.0
         * @since 0.2.0
         * @param indexA インデックス
         * @param indexB インデックス
@@ -336,7 +359,7 @@ declare module jaco {
         /**
         * 文字列の長さを返す
         *
-        * @version 0.2.0
+        * @version 1.3.0
         * @since 0.2.0
         * @return 文字列数
         */
@@ -414,6 +437,30 @@ declare module jaco {
         * @return 結果の真偽
         */
         has(target: string | Jaco): boolean;
+        /**
+        * サロゲートペアを含むかどうか
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        * @return 結果の真偽
+        */
+        hasSurrogatePair(): boolean;
+        /**
+        * ペアになっていないサロゲートがあるかどうか
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        * @return 結果の真偽
+        */
+        hasUnpairedSurrogate(): boolean;
+        /**
+        * ペアになっていないサロゲートを削除する
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        * @return インスタンス自身
+        */
+        removeUnpairedSurrogate(): Jaco;
         /**
         * 該当の文字だけで構成されているかどうか
         *
@@ -658,5 +705,13 @@ declare module jaco {
         * @return インスタンス自身
         */
         private _shift(needle, shiftNum);
+        /**
+        * 内部情報を更新
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        * @return インスタンス自身
+        */
+        private _update();
     }
 }

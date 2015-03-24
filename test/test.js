@@ -46,37 +46,67 @@ describe('Jaco Class', function () {
 	// slice()
 	it('抽出', function () {
 		var a = new Jaco('いろはにほへと');
-		var b = a._str.slice(1, 5);
+		var b = a.slice(1, 5);
 		b.toString().should.equal('ろはにほ');
 	});
 	it('抽出2', function () {
 		var a = new Jaco('いろはにほへと');
-		var b = a._str.slice(1);
+		var b = a.slice(1);
 		b.toString().should.equal('ろはにほへと');
+	});
+	it('抽出3', function () {
+		var a = new Jaco('𩸽のひらき');
+		var b = a.slice(1, 3);
+		b.toString().should.equal('のひ');
+	});
+	it('抽出4', function () {
+		var a = new Jaco('𩸽のひらき');
+		var b = a.slice(1);
+		b.toString().should.equal('のひらき');
 	});
 
 	// substr()
-	it('抽出3', function () {
-		var a = new Jaco('いろはにほへと');
-		var b = a._str.substr(1, 2);
-		b.toString().should.equal('ろは');
-	});
-	it('抽出4', function () {
-		var a = new Jaco('いろはにほへと');
-		var b = a._str.substr(1);
-		b.toString().should.equal('ろはにほへと');
-	});
-
-	// substring()
 	it('抽出5', function () {
 		var a = new Jaco('いろはにほへと');
-		var b = a._str.substring(0, 2);
-		b.toString().should.equal('いろ');
+		var b = a.substr(3, 3);
+		b.toString().should.equal('にほへ');
 	});
 	it('抽出6', function () {
 		var a = new Jaco('いろはにほへと');
-		var b = a._str.substring(1, 3);
+		var b = a.substr(1);
+		b.toString().should.equal('ろはにほへと');
+	});
+	it('抽出7', function () {
+		var a = new Jaco('𩸽のひらき');
+		var b = a.substr(1, 2);
+		b.toString().should.equal('のひ');
+	});
+	it('抽出8', function () {
+		var a = new Jaco('𩸽のひらき');
+		var b = a.substr(1);
+		b.toString().should.equal('のひらき');
+	});
+
+	// substring()
+	it('抽出9', function () {
+		var a = new Jaco('いろはにほへと');
+		var b = a.substring(0, 2);
+		b.toString().should.equal('いろ');
+	});
+	it('抽出10', function () {
+		var a = new Jaco('いろはにほへと');
+		var b = a.substring(1, 3);
 		b.toString().should.equal('ろは');
+	});
+	it('抽出11', function () {
+		var a = new Jaco('𩸽のひらき');
+		var b = a.substring(0, 2);
+		b.toString().should.equal('𩸽の');
+	});
+	it('抽出12', function () {
+		var a = new Jaco('𩸽のひらき');
+		var b = a.substring(1, 3);
+		b.toString().should.equal('のひ');
 	});
 
 	// toLowerCase()
@@ -139,6 +169,10 @@ describe('Jaco Class', function () {
 		var a = new Jaco('あ い う え\nお a b c');
 		a.size().should.equal(15);
 	});
+	it('文字数3', function () {
+		var a = new Jaco('𩸽のひらき');
+		a.size().should.equal(5);
+	});
 
 	// byteSize()
 	it('バイト数', function () {
@@ -148,6 +182,10 @@ describe('Jaco Class', function () {
 	it('バイト数2', function () {
 		var a = new Jaco('あ い う え\nお a b c');
 		a.byteSize().should.equal(25);
+	});
+	it('バイト数3', function () {
+		var a = new Jaco('𩸽のひらき');
+		a.byteSize().should.equal(16);
 	});
 
 	// isEmpty()
@@ -989,6 +1027,97 @@ describe('Jaco Class', function () {
 
 	it('よみ変換', function () {
 		new Jaco('あーぁあゝアア').toPhoeticKana().toString().should.equal('あああああああ');
+	});
+
+	// hasSurrogatePair
+	it('サロゲートペア検知', function () {
+		new Jaco('𩸽のひらき').hasSurrogatePair().should.ok;
+	});
+	it('サロゲートペア検知2', function () {
+		new Jaco('ほっけのひらき').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知3 (上位サロゲート コードポイントひとつ前)', function () {
+		new Jaco('\uD7FF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知4 (上位サロゲートのみ)', function () {
+		new Jaco('\uD800').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知5 (上位サロゲートのみ 最後のコードポイント)', function () {
+		new Jaco('\uDBFF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知6 (下位サロゲートのみ)', function () {
+		new Jaco('\uDC00').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知7 (下位サロゲートのみ 最後のコードポイント)', function () {
+		new Jaco('\uDFFF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知8 (下位サロゲート コードポイントひとつ次)', function () {
+		new Jaco('\uE000').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知9 (上位サロゲート コードポイントひとつ前 + 上位サロゲート コードポイントひとつ前)', function () {
+		new Jaco('\uD7FF\uD7FF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知10 (上位サロゲートのみ + 上位サロゲート コードポイントひとつ前)', function () {
+		new Jaco('\uD800\uD7FF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知11 (上位サロゲートのみ 最後のコードポイント + 上位サロゲート コードポイントひとつ前)', function () {
+		new Jaco('\uDBFF\uD7FF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知12 (下位サロゲートのみ + 上位サロゲート コードポイントひとつ前)', function () {
+		new Jaco('\uDC00\uD7FF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知13 (下位サロゲートのみ 最後のコードポイント + 上位サロゲート コードポイントひとつ前)', function () {
+		new Jaco('\uDFFF\uD7FF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知14 (下位サロゲート コードポイントひとつ次 + 上位サロゲート コードポイントひとつ前)', function () {
+		new Jaco('\uE000\uD7FF').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知15 (上位サロゲート コードポイントひとつ前 + 上位サロゲート)', function () {
+		new Jaco('\uD7FF\uD800').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知16 (上位サロゲートのみ + 上位サロゲート)', function () {
+		new Jaco('\uD800\uD800').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知17 (上位サロゲートのみ 最後のコードポイント + 上位サロゲート)', function () {
+		new Jaco('\uDBFF\uD800').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知18 (下位サロゲートのみ + 上位サロゲート)', function () {
+		new Jaco('\uDC00\uD800').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知19 (下位サロゲートのみ 最後のコードポイント + 上位サロゲート)', function () {
+		new Jaco('\uDFFF\uD800').hasSurrogatePair().should.not.ok;
+	});
+	it('サロゲートペア検知20 (下位サロゲート コードポイントひとつ次 + 上位サロゲート)', function () {
+		new Jaco('\uE000\uD800').hasSurrogatePair().should.not.ok;
+	});
+	// TODO: 全パターン列挙
+
+	// hasUnpairedSurrogate
+	it('不完全サロゲートペア検知', function () {
+		new Jaco('𩸽のひらき').hasUnpairedSurrogate().should.not.ok;
+	});
+	it('不完全サロゲートペア検知2', function () {
+		new Jaco('𩸽𩸽𩸽𩸽𩸽').hasUnpairedSurrogate().should.not.ok;
+	});
+	it('不完全サロゲートペア検知3', function () {
+		new Jaco('\ude3d\ud867\ude3d\ud867\ude3d\ud867').hasUnpairedSurrogate().should.ok;
+	});
+	it('不完全サロゲートペア検知4', function () {
+		new Jaco('ほっけのひらき').hasUnpairedSurrogate().should.not.ok;
+	});
+
+	// removeUnpairedSurrogate
+	it('不完全サロゲートペアの削除', function () {
+		new Jaco('𩸽のひらき').removeUnpairedSurrogate().toString().should.equal('𩸽のひらき');
+	});
+	it('不完全サロゲートペアの削除2', function () {
+		new Jaco('𩸽𩸽𩸽𩸽𩸽').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽𩸽𩸽𩸽');
+	});
+	it('不完全サロゲートペアの削除3', function () {
+		new Jaco('\ude3d\ud867\ude3d\ud867\ude3d\ud867').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽𩸽');
+	});
+	it('不完全サロゲートペアの削除4', function () {
+		new Jaco('ほっけのひらき').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
 	});
 
 
