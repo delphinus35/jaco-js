@@ -2,4 +2,8 @@ src
 test
 docs
 npm-debug.log
-
+bower.json
+dtsm.json
+gruntfile.coffee
+tslint.json
+typings
