@@ -344,7 +344,7 @@ module jaco {
 		* @return 結果の真偽
 		*/
 		public hasSurrogatePair (): boolean {
-			return new RegExp('[' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']').test(this._str);
+			return new RegExp(`[${HIGH_SURROGATE}][${LOW_SURROGATE}]`).test(this._str);
 		}
 
 		/**
@@ -355,7 +355,7 @@ module jaco {
 		* @return 結果の真偽
 		*/
 		public hasUnpairedSurrogate (): boolean {
-			return new RegExp('[^' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']|[' + HIGH_SURROGATE + '][^' + LOW_SURROGATE + ']').test(this._str);
+			return new RegExp(`[^${HIGH_SURROGATE}][${LOW_SURROGATE}]|[${HIGH_SURROGATE}][^${LOW_SURROGATE}]`).test(this._str);
 		}
 
 		/**
@@ -366,7 +366,7 @@ module jaco {
 		* @return インスタンス自身
 		*/
 		public removeUnpairedSurrogate (): Jaco {
-			this.remove(new RegExp('[^' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']|[' + HIGH_SURROGATE + '][^' + LOW_SURROGATE + ']', 'g'));
+			this.remove(new RegExp(`[^${HIGH_SURROGATE}][${LOW_SURROGATE}]|[${HIGH_SURROGATE}][^${LOW_SURROGATE}]`, 'g'));
 			return this;
 		}
 
@@ -379,7 +379,7 @@ module jaco {
 		* @return 結果の真偽
 		*/
 		public isOnly (characters: string | Jaco): boolean {
-			return this.test(new RegExp('^[' + characters + ']+$', 'gm'));
+			return this.test(new RegExp(`^[${characters}]+$`, 'gm'));
 		}
 
 		/**
@@ -908,17 +908,14 @@ module jaco {
 		* @return インスタンス自信
 		*/
 		public convertIterationMarks (): Jaco {
-			let kanaWithIterationMarks: RegExp = new RegExp(
-				'([' +
-				jaco.HIRAGANA_CHARS_IGNORE_ITERATION_MARKS +
-				jaco.KATAKANA_CHARS_IGNORE_ITERATION_MARKS +
-				'])([ゝゞヽヾ])'
-			);
-			let conv = (_str): string => {
+			let hira: string = HIRAGANA_CHARS_IGNORE_ITERATION_MARKS;
+			let kata: string = KATAKANA_CHARS_IGNORE_ITERATION_MARKS;
+			let kanaWithIterationMarks: RegExp = new RegExp(`([${hira}${kata}])([ゝゞヽヾ])`);
+			let conv = (_str: string): string => {
 				return _str.replace(kanaWithIterationMarks, ($0: string, $1: string, $2: string): string => {
-					let beforeString = $1;
-					let converted = new jaco.Jaco($1).removeVoicedMarks();
-					let iterationMark = $2;
+					let beforeString: string = $1;
+					let converted: Jaco = new jaco.Jaco($1).removeVoicedMarks();
+					let iterationMark: string = $2;
 					switch (iterationMark) {
 						case 'ゝ': {
 							converted.toHiragana();
@@ -1052,12 +1049,7 @@ module jaco {
 		private _update (): Jaco {
 			this._includedSurrogate = includedSurrogate(this._str);
 			if (this._includedSurrogate) {
-				this._array = this._str.match(
-					new RegExp(
-						'[' + HIGH_SURROGATE + '][' + LOW_SURROGATE + ']|[^' + HIGH_SURROGATE + LOW_SURROGATE + ']',
-						'g'
-					)
-				) || [];
+				this._array = this._str.match(new RegExp(`[${HIGH_SURROGATE}][${LOW_SURROGATE}]|[^${HIGH_SURROGATE}${LOW_SURROGATE}]`, 'g')) || [];
 			} else {
 				this._array = null;
 			}
@@ -1075,7 +1067,7 @@ module jaco {
 	* @return 正規表現化された文字セット
 	*/
 	function toPattern (chars: string): RegExp {
-		return new RegExp('[' + chars + ']', 'g');
+		return new RegExp(`[${chars}]`, 'g');
 	}
 
 	/**
@@ -1100,7 +1092,7 @@ module jaco {
 	* @return サロゲートペアを含むかどうか
 	*/
 	function includedSurrogate (chars: string): boolean {
-		return new RegExp('[' + HIGH_SURROGATE + LOW_SURROGATE + ']').test(chars);
+		return new RegExp(`[${HIGH_SURROGATE}${LOW_SURROGATE}]`).test(chars);
 	}
 
 }
