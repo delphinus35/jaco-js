@@ -17,7 +17,7 @@ module jaco {
 	* [!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]
 	*
 	*/
-	export var SIGN_CHARS: string = '\\u0020-\\u002F\\u003A-\\u0041\\u005B-\\u0061\\u007B-\\u007E';
+	export const SIGN_CHARS: string = '\\u0020-\\u002F\\u003A-\\u0041\\u005B-\\u0061\\u007B-\\u007E';
 
 	/**
 	* 半角数字
@@ -25,7 +25,7 @@ module jaco {
 	* [0-9]
 	*
 	*/
-	export var DIGIT_CAHRS: string = '0-9';
+	export const DIGIT_CAHRS: string = '0-9';
 
 	/**
 	* 半角英字
@@ -33,7 +33,7 @@ module jaco {
 	* [A-Za-z]
 	*
 	*/
-	export var ALPHA_CHARS: string = 'A-Za-z';
+	export const ALPHA_CHARS: string = 'A-Za-z';
 
 	/**
 	* 半角英数記号
@@ -41,7 +41,7 @@ module jaco {
 	* [!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~]
 	*
 	*/
-	export var ALPHANUMERIC_CHARS_WITH_SIGN: string = '\\u0020-\\u007E';
+	export const ALPHANUMERIC_CHARS_WITH_SIGN: string = '\\u0020-\\u007E';
 
 	/**
 	* 全角記号
@@ -49,7 +49,7 @@ module jaco {
 	* [！＂＃＄％＆＇（）＊＋，－．／：；＜＝＞？＠［＼］＾＿｀｛｜｝～]
 	*
 	*/
-	export var FULLWIDTH_SING_CHARS: string = '\\uFF01-\\uFF0F\\uFF1A-\\uFF20\\uFF3B-\\uFF40\\uFF5B-\\uFF5E';
+	export const FULLWIDTH_SING_CHARS: string = '\\uFF01-\\uFF0F\\uFF1A-\\uFF20\\uFF3B-\\uFF40\\uFF5B-\\uFF5E';
 
 	/**
 	* 全角数字
@@ -57,7 +57,7 @@ module jaco {
 	* [０１２３４５６７８９]
 	*
 	*/
-	export var FULLWIDTH_DIGIT_CHARS: string = '\\uFF10-\\uFF19';
+	export const FULLWIDTH_DIGIT_CHARS: string = '\\uFF10-\\uFF19';
 
 	/**
 	* 全角英字
@@ -65,7 +65,7 @@ module jaco {
 	* [ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ]
 	*
 	*/
-	export var FULLWIDTH_ALPHA_CHARS: string = '\\uFF21-\\uFF3A\\uFF41-\\uFF5A';
+	export const FULLWIDTH_ALPHA_CHARS: string = '\\uFF21-\\uFF3A\\uFF41-\\uFF5A';
 
 	/**
 	* 全角英数記号
@@ -73,7 +73,7 @@ module jaco {
 	* [！＂＃＄％＆＇（）＊＋，－．／０１２３４５６７８９：；＜＝＞？＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～]
 	*
 	*/
-	export var FULLWIDTH_ALPHANUMERIC_CHARS_WITH_SIGN: string = '\\uFF01-\\uFF5F';
+	export const FULLWIDTH_ALPHANUMERIC_CHARS_WITH_SIGN: string = '\\uFF01-\\uFF5F';
 
 	/**
 	* ひらがな
@@ -81,7 +81,7 @@ module jaco {
 	* [ぁ-ゖゝ-ゟ]
 	*
 	*/
-	export var HIRAGANA_CHARS: string = '\\u3041-\\u3096\\u309D-\\u309F';
+	export const HIRAGANA_CHARS: string = '\\u3041-\\u3096\\u309D-\\u309F';
 
 	/**
 	* ひらがな（繰り返し記号・合字なし）
@@ -89,7 +89,7 @@ module jaco {
 	* [ぁ-ゖ]
 	*
 	*/
-	export var HIRAGANA_CHARS_IGNORE_ITERATION_MARKS: string = '\\u3041-\\u3096';
+	export const HIRAGANA_CHARS_IGNORE_ITERATION_MARKS: string = '\\u3041-\\u3096';
 
 	/**
 	* カタカナ
@@ -97,7 +97,7 @@ module jaco {
 	* [ァ-ヺヽ-ヿ]
 	*
 	*/
-	export var KATAKANA_CHARS: string = '\\u30A1-\\u30FA\\u30FD\\u30FF';
+	export const KATAKANA_CHARS: string = '\\u30A1-\\u30FA\\u30FD\\u30FF';
 
 	/**
 	* カタカナ（繰り返し記号・合字なし）
@@ -105,7 +105,7 @@ module jaco {
 	* [ァ-ヺ]
 	*
 	*/
-	export var KATAKANA_CHARS_IGNORE_ITERATION_MARKS: string = '\\u30A1-\\u30FA';
+	export const KATAKANA_CHARS_IGNORE_ITERATION_MARKS: string = '\\u30A1-\\u30FA';
 
 	/**
 	* 濁点／半濁点(結合文字含む)・長音符
@@ -113,7 +113,7 @@ module jaco {
 	* [゛゜ー]
 	*
 	*/
-	export var KANA_COMMON_CAHRS: string = '\u3099-\u309C\u30FC';
+	export const KANA_COMMON_CAHRS: string = '\u3099-\u309C\u30FC';
 
 	/**
 	* 日本語で使用される記号
@@ -123,7 +123,7 @@ module jaco {
 	* [波ダッシュ・全角チルダ問題](http://goo.gl/w1xV9Z)があるため 全角チルダを含めることとする
 	*
 	*/
-	export var JAPANESE_SIGN_CHARS: string = '\u3000-\u3036\u30FB\\uFF5E';
+	export const JAPANESE_SIGN_CHARS: string = '\u3000-\u3036\u30FB\\uFF5E';
 
 	/**
 	* 半角カタカナ
@@ -134,7 +134,7 @@ module jaco {
 	* [ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ]
 	*
 	*/
-	export var NARROW_KATAKANA_CHARS: string = '\\uFF66-\\uFF9F';
+	export const NARROW_KATAKANA_CHARS: string = '\\uFF66-\\uFF9F';
 
 	/**
 	* 半角の日本語で使用される記号
@@ -142,7 +142,7 @@ module jaco {
 	* [｡｢｣､･]
 	*
 	*/
-	export var NARROW_JAPANESE_SIGN_CHARS: string = '\\uFF61-\\uFF65';
+	export const NARROW_JAPANESE_SIGN_CHARS: string = '\\uFF61-\\uFF65';
 
 	/**
 	* スペース
@@ -150,19 +150,19 @@ module jaco {
 	* 仕様上、実際には「\u0009\u0020\u00A0\u2002〜\u200B\u3000\uFEFF'」すべて「\s」に含まれる
 	*
 	*/
-	export var SPACE_CHARS: string = '\\s\\n\\t\\u0009\\u0020\\u00A0\\u2002-\\u200B\\u3000\\uFEFF';
+	export const SPACE_CHARS: string = '\\s\\n\\t\\u0009\\u0020\\u00A0\\u2002-\\u200B\\u3000\\uFEFF';
 
 	/**
 	* 上位サロゲート
 	*
 	*/
-	export var HIGH_SURROGATE: string = '\\uD800-\\uDBFF';
+	export const HIGH_SURROGATE: string = '\\uD800-\\uDBFF';
 
 	/**
 	* 下位サロゲート
 	*
 	*/
-	export var LOW_SURROGATE: string = '\\uDC00-\\uDFFF';
+	export const LOW_SURROGATE: string = '\\uDC00-\\uDFFF';
 
 	/**
 	* ひらがな化
