@@ -344,7 +344,9 @@ module jaco {
 		* @return 結果の真偽
 		*/
 		public hasSurrogatePair (): boolean {
-			return new RegExp(`[${HIGH_SURROGATE}][${LOW_SURROGATE}]`).test(this._str);
+			const H: string = HIGH_SURROGATE;
+			const L: string = LOW_SURROGATE;
+			return new RegExp(`[${H}][${L}]`).test(this._str);
 		}
 
 		/**
@@ -355,7 +357,9 @@ module jaco {
 		* @return 結果の真偽
 		*/
 		public hasUnpairedSurrogate (): boolean {
-			return new RegExp(`[^${HIGH_SURROGATE}][${LOW_SURROGATE}]|[${HIGH_SURROGATE}][^${LOW_SURROGATE}]`).test(this._str);
+			const H: string = HIGH_SURROGATE;
+			const L: string = LOW_SURROGATE;
+			return new RegExp(`[^${H}][${L}]|[${H}][^${L}]`).test(this._str);
 		}
 
 		/**
@@ -366,9 +370,9 @@ module jaco {
 		* @return インスタンス自身
 		*/
 		public removeUnpairedSurrogate (): Jaco {
-			let h: string = HIGH_SURROGATE;
-			let l: string = LOW_SURROGATE;
-			this.remove(new RegExp(`(?:[${h}](?:[^${l}]|$))|(?:(?:[^${h}]|^)[${l}])`, 'g'));
+			const H: string = HIGH_SURROGATE;
+			const L: string = LOW_SURROGATE;
+			this.replace(new RegExp(`(?:^|([^${H}]))[${L}]|[${H}](?:([^${L}])|$)`, 'g'), '$1');
 			return this;
 		}
 

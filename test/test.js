@@ -1105,6 +1105,24 @@ describe('Jaco Class', function () {
 	it('不完全サロゲートペア検知4', function () {
 		new Jaco('ほっけのひらき').hasUnpairedSurrogate().should.not.ok;
 	});
+	it('不完全サロゲートペア検知5', function () {
+		new Jaco('\ude3dほっけのひらき').removeUnpairedSurrogate().toString().should.ok;
+	});
+	it('不完全サロゲートペア検知6', function () {
+		new Jaco('ほっけのひらき\ude3d').removeUnpairedSurrogate().toString().should.ok;
+	});
+	it('不完全サロゲートペア検知7', function () {
+		new Jaco('\ud867ほっけのひらき').removeUnpairedSurrogate().toString().should.ok;
+	});
+	it('不完全サロゲートペア検知8', function () {
+		new Jaco('ほっけのひらき\ud867').removeUnpairedSurrogate().toString().should.ok;
+	});
+	it('不完全サロゲートペア検知9', function () {
+		new Jaco('ほっけ\ud867のひらき').removeUnpairedSurrogate().toString().should.ok;
+	});
+	it('不完全サロゲートペア検知10', function () {
+		new Jaco('ほっけ\ude3dのひらき').removeUnpairedSurrogate().toString().should.ok;
+	});
 
 	// removeUnpairedSurrogate
 	it('不完全サロゲートペアの削除', function () {
@@ -1114,10 +1132,28 @@ describe('Jaco Class', function () {
 		new Jaco('𩸽𩸽𩸽𩸽𩸽').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽𩸽𩸽𩸽');
 	});
 	it('不完全サロゲートペアの削除3', function () {
-		new Jaco('\ude3d\ud867\ude3d\ud867\ude3d\ud867').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽�');
+		new Jaco('\ude3d\ud867\ude3d\ud867\ude3d\ud867').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽');
 	});
 	it('不完全サロゲートペアの削除4', function () {
 		new Jaco('ほっけのひらき').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
+	});
+	it('不完全サロゲートペアの削除5', function () {
+		new Jaco('\ude3dほっけのひらき').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
+	});
+	it('不完全サロゲートペアの削除6', function () {
+		new Jaco('ほっけのひらき\ude3d').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
+	});
+	it('不完全サロゲートペアの削除7', function () {
+		new Jaco('\ud867ほっけのひらき').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
+	});
+	it('不完全サロゲートペアの削除8', function () {
+		new Jaco('ほっけのひらき\ud867').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
+	});
+	it('不完全サロゲートペアの削除9', function () {
+		new Jaco('ほっけ\ud867のひらき').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
+	});
+	it('不完全サロゲートペアの削除10', function () {
+		new Jaco('ほっけ\ude3dのひらき').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');
 	});
 
 
