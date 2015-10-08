@@ -17,91 +17,91 @@ declare module jaco {
     * [!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]
     *
     */
-    var SIGN_CHARS: string;
+    const SIGN_CHARS: string;
     /**
     * 半角数字
     *
     * [0-9]
     *
     */
-    var DIGIT_CAHRS: string;
+    const DIGIT_CAHRS: string;
     /**
     * 半角英字
     *
     * [A-Za-z]
     *
     */
-    var ALPHA_CHARS: string;
+    const ALPHA_CHARS: string;
     /**
     * 半角英数記号
     *
     * [!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~]
     *
     */
-    var ALPHANUMERIC_CHARS_WITH_SIGN: string;
+    const ALPHANUMERIC_CHARS_WITH_SIGN: string;
     /**
     * 全角記号
     *
     * [！＂＃＄％＆＇（）＊＋，－．／：；＜＝＞？＠［＼］＾＿｀｛｜｝～]
     *
     */
-    var FULLWIDTH_SING_CHARS: string;
+    const FULLWIDTH_SING_CHARS: string;
     /**
     * 全角数字
     *
     * [０１２３４５６７８９]
     *
     */
-    var FULLWIDTH_DIGIT_CHARS: string;
+    const FULLWIDTH_DIGIT_CHARS: string;
     /**
     * 全角英字
     *
     * [ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ]
     *
     */
-    var FULLWIDTH_ALPHA_CHARS: string;
+    const FULLWIDTH_ALPHA_CHARS: string;
     /**
     * 全角英数記号
     *
     * [！＂＃＄％＆＇（）＊＋，－．／０１２３４５６７８９：；＜＝＞？＠ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ［＼］＾＿｀ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ｛｜｝～]
     *
     */
-    var FULLWIDTH_ALPHANUMERIC_CHARS_WITH_SIGN: string;
+    const FULLWIDTH_ALPHANUMERIC_CHARS_WITH_SIGN: string;
     /**
     * ひらがな
     *
     * [ぁ-ゖゝ-ゟ]
     *
     */
-    var HIRAGANA_CHARS: string;
+    const HIRAGANA_CHARS: string;
     /**
     * ひらがな（繰り返し記号・合字なし）
     *
     * [ぁ-ゖ]
     *
     */
-    var HIRAGANA_CHARS_IGNORE_ITERATION_MARKS: string;
+    const HIRAGANA_CHARS_IGNORE_ITERATION_MARKS: string;
     /**
     * カタカナ
     *
     * [ァ-ヺヽ-ヿ]
     *
     */
-    var KATAKANA_CHARS: string;
+    const KATAKANA_CHARS: string;
     /**
     * カタカナ（繰り返し記号・合字なし）
     *
     * [ァ-ヺ]
     *
     */
-    var KATAKANA_CHARS_IGNORE_ITERATION_MARKS: string;
+    const KATAKANA_CHARS_IGNORE_ITERATION_MARKS: string;
     /**
     * 濁点／半濁点(結合文字含む)・長音符
     *
     * [゛゜ー]
     *
     */
-    var KANA_COMMON_CAHRS: string;
+    const KANA_COMMON_CAHRS: string;
     /**
     * 日本語で使用される記号
     *
@@ -110,7 +110,7 @@ declare module jaco {
     * [波ダッシュ・全角チルダ問題](http://goo.gl/w1xV9Z)があるため 全角チルダを含めることとする
     *
     */
-    var JAPANESE_SIGN_CHARS: string;
+    const JAPANESE_SIGN_CHARS: string;
     /**
     * 半角カタカナ
     *
@@ -120,31 +120,31 @@ declare module jaco {
     * [ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ]
     *
     */
-    var NARROW_KATAKANA_CHARS: string;
+    const NARROW_KATAKANA_CHARS: string;
     /**
     * 半角の日本語で使用される記号
     *
     * [｡｢｣､･]
     *
     */
-    var NARROW_JAPANESE_SIGN_CHARS: string;
+    const NARROW_JAPANESE_SIGN_CHARS: string;
     /**
     * スペース
     *
     * 仕様上、実際には「\u0009\u0020\u00A0\u2002〜\u200B\u3000\uFEFF'」すべて「\s」に含まれる
     *
     */
-    var SPACE_CHARS: string;
+    const SPACE_CHARS: string;
     /**
     * 上位サロゲート
     *
     */
-    var HIGH_SURROGATE: string;
+    const HIGH_SURROGATE: string;
     /**
     * 下位サロゲート
     *
     */
-    var LOW_SURROGATE: string;
+    const LOW_SURROGATE: string;
     /**
     * ひらがな化
     *
@@ -618,6 +618,22 @@ declare module jaco {
         * @return インスタンス自身
         */
         toWide(): Jaco;
+        /**
+        * 記号を半角に変換
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        * @return インスタンス自身
+        */
+        toNarrowSymbol(): Jaco;
+        /**
+        * 記号を全角に変換
+        *
+        * @version 1.3.0
+        * @since 1.3.0
+        * @return インスタンス自身
+        */
+        toWideSymbol(): Jaco;
         /**
         * 濁点を追加する
         *

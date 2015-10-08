@@ -1114,7 +1114,7 @@ describe('Jaco Class', function () {
 		new Jaco('𩸽𩸽𩸽𩸽𩸽').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽𩸽𩸽𩸽');
 	});
 	it('不完全サロゲートペアの削除3', function () {
-		new Jaco('\ude3d\ud867\ude3d\ud867\ude3d\ud867').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽𩸽');
+		new Jaco('\ude3d\ud867\ude3d\ud867\ude3d\ud867').removeUnpairedSurrogate().toString().should.equal('𩸽𩸽�');
 	});
 	it('不完全サロゲートペアの削除4', function () {
 		new Jaco('ほっけのひらき').removeUnpairedSurrogate().toString().should.equal('ほっけのひらき');

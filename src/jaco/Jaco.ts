@@ -366,7 +366,9 @@ module jaco {
 		* @return インスタンス自身
 		*/
 		public removeUnpairedSurrogate (): Jaco {
-			this.remove(new RegExp(`[^${HIGH_SURROGATE}][${LOW_SURROGATE}]|[${HIGH_SURROGATE}][^${LOW_SURROGATE}]`, 'g'));
+			let h: string = HIGH_SURROGATE;
+			let l: string = LOW_SURROGATE;
+			this.remove(new RegExp(`(?:[${h}](?:[^${l}]|$))|(?:(?:[^${h}]|^)[${l}])`, 'g'));
 			return this;
 		}
 
