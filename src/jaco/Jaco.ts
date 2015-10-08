@@ -103,7 +103,7 @@ module jaco {
 		* @return インスタンス自身
 		*/
 		public replace (pattern: string | RegExp, replacement: string): Jaco {
-			// TODO: replaceメソッドの型が (string | RexExp) だとコンパイルエラー TSv1.4.1時点
+			// TODO: replaceメソッドの型が (string | RexExp) だとコンパイルエラー TSv1.5.3時点
 			this._str = this._str.replace(<RegExp> pattern, replacement);
 			this._update();
 			return this;
@@ -159,8 +159,8 @@ module jaco {
 		* @return 抽出した文字列からなるJacoインスタンス
 		*/
 		public substring (indexA: number, indexB: number): Jaco {
-			var start: number = Math.min(indexA, indexB);
-			var end: number = Math.max(indexA, indexB);
+			let start: number = Math.min(indexA, indexB);
+			let end: number = Math.max(indexA, indexB);
 			if (this._includedSurrogate) {
 				return new Jaco(this._array.slice(start, end).join(''));
 			} else {
@@ -274,7 +274,7 @@ module jaco {
 		* @return 結果の真偽
 		*/
 		public test (pattern: string | RegExp): boolean {
-			var res: boolean;
+			let res: boolean;
 			if (typeof pattern === 'string') {
 				res = this._str === pattern;
 			} else {
@@ -414,7 +414,7 @@ module jaco {
 		* @return 結果の真偽
 		*/
 		public isNumeric (negative: boolean = true, floatingPoint: boolean = true): boolean {
-			var pattern: string = '^';
+			let pattern: string = '^';
 			if (negative) {
 				pattern += '-?';
 			}
@@ -874,9 +874,9 @@ module jaco {
 		* @return インスタンス自信
 		*/
 		public convertProlongedSoundMarks (): Jaco {
-			var kanaWithProlongedSoundMarksPattern: RegExp = new RegExp('[' + jaco.HIRAGANA_CHARS + jaco.KATAKANA_CHARS + ']ー');
-			var converted: string = this._str;
-			var conv = (_str: string): string => {
+			let kanaWithProlongedSoundMarksPattern: RegExp = new RegExp('[' + jaco.HIRAGANA_CHARS + jaco.KATAKANA_CHARS + ']ー');
+			let converted: string = this._str;
+			let conv = (_str: string): string => {
 				_str = _str.replace(/([あぁかゕがさざただなはばぱまやゃらわゎ])ー/g, '$1あ')
 					.replace(/([いぃきぎしじちぢにひびぴみりゐ])ー/g, '$1い')
 					.replace(/([うぅゔくぐすずつづぬふぶぷむゆゅる])ー/g, '$1う')
@@ -908,17 +908,17 @@ module jaco {
 		* @return インスタンス自信
 		*/
 		public convertIterationMarks (): Jaco {
-			var kanaWithIterationMarks: RegExp = new RegExp(
+			let kanaWithIterationMarks: RegExp = new RegExp(
 				'([' +
 				jaco.HIRAGANA_CHARS_IGNORE_ITERATION_MARKS +
 				jaco.KATAKANA_CHARS_IGNORE_ITERATION_MARKS +
 				'])([ゝゞヽヾ])'
 			);
-			var conv = (_str): string => {
+			let conv = (_str): string => {
 				return _str.replace(kanaWithIterationMarks, ($0: string, $1: string, $2: string): string => {
-					var beforeString = $1;
-					var converted = new jaco.Jaco($1).removeVoicedMarks();
-					var iterationMark = $2;
+					let beforeString = $1;
+					let converted = new jaco.Jaco($1).removeVoicedMarks();
+					let iterationMark = $2;
 					switch (iterationMark) {
 						case 'ゝ': {
 							converted.toHiragana();
@@ -1017,11 +1017,9 @@ module jaco {
 		* @return インスタンス自身
 		*/
 		public replaceMap (convMap: { [target: string]: string; }): Jaco {
-			var needle: string;
-			var replace: string;
-			for (needle in convMap) {
+			for (let needle in convMap) {
 				if (convMap.hasOwnProperty(needle)) {
-					replace = convMap[needle];
+					let replace: string = convMap[needle];
 					this._str = this._str.replace(toRegExp(needle), replace);
 				}
 			}
