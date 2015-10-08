@@ -768,6 +768,36 @@ module jaco {
 		}
 
 		/**
+		* 記号を半角に変換
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		* @return インスタンス自身
+		*/
+		public toNarrowSymbol (): Jaco {
+			// スペースの変換
+			this.replace(toPattern(SPACE_CHARS), ' ');
+			// 半角英数記号の変換
+			this._shift(toPattern(FULLWIDTH_SING_CHARS), -65248);
+			return this;
+		}
+
+		/**
+		* 記号を全角に変換
+		*
+		* @version 1.3.0
+		* @since 1.3.0
+		* @return インスタンス自身
+		*/
+		public toWideSymbol (): Jaco {
+			// スペースの変換
+			this.replace(' ', '\u3000');
+			// 半角英数記号の変換
+			this._shift(toPattern(SIGN_CHARS), 65248);
+			return this;
+		}
+
+		/**
 		* 濁点を追加する
 		*
 		* @version 1.1.0
