@@ -939,9 +939,9 @@ export default class Jaco {
 	 */
 	public toNarrow (convertJapaneseChars: boolean = false): Jaco {
 		// スペースの変換
-		this.replace(toPattern(SPACE_CHARS), ' ');
+		this.toNarrowSpace();
 		// 半角英数記号の変換
-		this._shift(toPattern(FULLWIDTH_ALPHANUMERIC_CHARS_WITH_SIGN), -65248);
+		this.toNarrowAlphanumeric();
 		if (convertJapaneseChars) {
 			// 日本語カタカナ記号の変換
 			this.toNarrowJapnese();
@@ -1195,6 +1195,16 @@ export default class Jaco {
 				this._str = this._str.replace(toRegExp(needle), replace);
 			}
 		}
+		return this;
+	}
+
+	public toNarrowSpace (): Jaco {
+		this.replace(toPattern(SPACE_CHARS), ' ');
+		return this;
+	}
+
+	public toNarrowAlphanumeric (): Jaco {
+		this._shift(toPattern(FULLWIDTH_ALPHANUMERIC_CHARS_WITH_SIGN), -65248);
 		return this;
 	}
 
